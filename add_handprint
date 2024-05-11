@@ -1,0 +1,32 @@
+#! /bin/sh
+
+if [ "$#" -lt 4 ]; then
+	echo "Usage: add_handprint x y color [--flip]"
+	echo "Color can be one of Limestone, Haematite, Limonite, Manganite, Lapis, Malachite"
+	exit 1
+fi
+
+X="$1"
+Y="$2"
+COLOR="$3"
+NAME="$4"
+if [ "$5" = "--flip" ]; then
+	FLIP="-flop"
+fi
+
+case $COLOR in
+	Limestone) COLOR_HEX="#e2d1ae" ;;
+	Haematite) COLOR_HEX="#892111" ;;
+	Limonite) COLOR_HEX="#e5b340" ;;
+	Manganite) COLOR_HEX="#664228" ;;
+	Lapis) COLOR_HEX="#6b96bf" ;;
+	Malachite) COLOR_HEX="#0f825f" ;;
+	*) COLOR_HEX="#ffffff" ;;
+esac
+
+
+convert handprints.png \
+	\( hand.png $FLIP -fill $COLOR_HEX -colorize 100% -repage +$X+$Y \) \
+	-flatten handprints.png
+
+echo $(date +"%Y-%m-%d %H:%M:%S") $1 $2 $3 $4 $5 >> history

@@ -1,0 +1,11 @@
+#! /bin/sh
+
+if [ "$#" -eq 1 ]; then
+	convert bg.png \
+		\( +clone -fill "gray($1)" -colorize 100 \) \
+		-alpha off -compose copy_opacity -composite overlay.png
+else
+	convert handprints.png overlay.png -flatten handprints.png
+	echo $(date +"%Y-%m-%d %H:%M:%S") fade >> history
+fi
+

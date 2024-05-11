@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<title></title>
+		<style>
+		html { color-scheme: light dark; }
+body { max-width: 36em; margin: 5rem auto; padding: 2px; font: 1.1rem 'Noto Serif', 'Century Schoolbook', 'P052', 'Palatino Linotype', serif; }
+#handprints { width: 100%; cursor: pointer }
+footer { text-align: center; border-top: 3px dotted gray }
+
+		</style>
+	</head>
+	<body>
+		<h2>Add a Handprint</h2>
+
+		<p>
+		Click anywhere on the image below to set the position of the handprint.
+		Then, choose the color of the handprint using the buttons below.
+		</p>
+
+		<p>
+		When you're done customizing, click the 'Add Handprint' button
+		</p>
+
+		<img id="handprints" src="handprints.png">
+		<img id="hand" src="hand.png" style="position:absolute">
+		<form action="submit.php" method="post">
+			<label for="x">X: </label>
+			<input id="x" type="number" name="x" min="0" max="400" value="0">
+			<label for="y">Y: </label>
+			<input id="y" type="number" name="y" min="0" max="240" value="0"><br><br>
+			<label for="name">Your name: </label>
+			<input id="name" type="text" name="name" value="Anonymous"><br>
+
+			<p>Color:</p>
+			<input type="radio" id="color1" name="color" value="Limestone">
+			<label for="color1"><span style="color:#e2d1ae">Limestone</span></label><br>
+
+			<input type="radio" id="color2" name="color" value="Haematite" checked>
+			<label for="color2"><span style="color:#892111">Haematite</span></label><br>
+
+			<input type="radio" id="color3" name="color" value="Limonite">
+			<label for="color3"><span style="color:#e5b340">Limonite</span></label><br>
+
+			<input type="radio" id="color4" name="color" value="Manganite">
+			<label for="color4"><span style="color:#664228">Manganite</span></label><br>
+
+			<input type="radio" id="color5" name="color" value="Lapis">
+			<label for="color5"><span style="color:#6b96bf">Lapis</span></label><br>
+
+			<input type="radio" id="color6" name="color" value="Malachite">
+			<label for="color6"><span style="color:#0f825f">Malachite</span></label><br><br>
+
+
+			<input type="checkbox" id="flip" name="flip" value="flip" onchange="doFlip()">
+			<label for="flip">Left Hand</label><br><br>
+
+
+			<button type="submit">Add Handprint</button>
+		</form>
+		<br>
+		<footer>
+			<p><a href="../">Home</a></p>
+	</body>
+
+	<script>
+		let scale = handprints.getBoundingClientRect().width / 400;
+		hand.width = 32 * scale;
+
+		function doPlace(e) {
+					let { top, left, width } = handprints.getBoundingClientRect();
+					let scale = width / 400;
+					let xPos = e.pageX - 16*scale; 
+					let yPos = e.pageY - 16*scale;
+					x.value = Math.round((e.clientX - left) / scale) - 16;
+					y.value = Math.round((e.clientY - top) / scale) - 16;
+					hand.style.left = `${xPos}px`;
+					hand.style.top = `${yPos}px`;
+				}
+
+		handprints.addEventListener('mousedown', doPlace)
+		hand.addEventListener('mousedown', doPlace)
+
+
+		function doFlip() {
+					if (flip.checked) {
+								hand.style.transform="scale(-1,1)"
+							} else {
+										hand.style.transform=""
+									}
+				}
+
+		doFlip()
+	</script>
+
+</html>
